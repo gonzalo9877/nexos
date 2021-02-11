@@ -21,6 +21,6 @@ public interface LibroServicio {
 
 	Libro obtenerPorId(Long id) throws Exception;
 
-	Libro obtenerFiltrado(TipoFiltro tipo, String busqueda);
+	List<Libro> obtenerFiltrado(String tipo, String busqueda);
 
 }

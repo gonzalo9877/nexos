@@ -1,0 +1,37 @@
+<form>
+    <div class="form-row col-md-12">
+        <div class="form-group col-md-6">
+            <label for="inputCity">Busqueda</label>
+            <input type="text" class="form-control" id="barcode" [(ngModel)]="busqueda" name="busqueda">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputState">Tipo de busqueda</label>
+            <select id="inputState" class="form-select" [(ngModel)]="tipoSeleccionado" name="tipoSeleccionado" aria-label="Buscar por...">
+                    <option *ngFor="let tipo of tipoBusqueda">{{tipo}}</option>
+            </select>
+        </div>
+    </div>
+    <button type="btn btn-lg btn-outline-primary" class="btn btn-primary" (click)="buscar()">Buscar</button>
+</form>
+
+<table class="table table-hover">
+    <thead class="bg-primary">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Año</th>
+            <th scope="col">Genero</th>
+            <th scope="col">Numero Paginas</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let libro of libros">
+            <th scope="row">{{libro.id}}</th>
+            <td>{{libro.titulo}}</td>
+            <td>{{libro.anio}}</td>
+            <td>{{libro.genero}}</td>
+            <td>{{libro.numeroPaginas}}</td>
+            <!-- <button class="btn btn-lg btn-outline-primary" (click)="open(recibo)">Launch demo modal</button> -->
+        </tr>
+    </tbody>
+</table>

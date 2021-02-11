@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,7 +44,7 @@ public class LibroController {
 	}
 
 	@GetMapping("/obtener-por-id/{id}")
-	public LibroDTO obtenerLibro(@RequestParam(value = "id") Long id) throws Exception {
+	public LibroDTO obtenerLibro(@PathVariable(value = "id") Long id) throws Exception {
 
 		try {
 			return conversor.modeloADto(servicio.obtenerPorId(id));
@@ -53,19 +54,19 @@ public class LibroController {
 	}
 
 	@GetMapping("/obtener-por-filtro/{tipo}/{busqueda}")
-	public LibroDTO obtenerLibro(@RequestParam(value = "tipo") TipoFiltro tipo,
-			@RequestParam(value = "busqueda") String busqueda) {
+	public List<LibroDTO> obtenerLibro(@PathVariable(value = "tipo") String tipo,
+			@PathVariable(value = "busqueda") String busqueda) {
 
 		try {
-			return conversor.modeloADto(servicio.obtenerFiltrado(tipo, busqueda));
+			return conversor.listaModeloADto(servicio.obtenerFiltrado(tipo, busqueda));
 		} finally {
 			logger.info("finalizando consumo api obtenerLibro");
 		}
 	}
 
 	@GetMapping("/Pagina")
-	public List<LibroDTO> pagina(@RequestParam(value = "paginaTamano") int paginaTamano,
-			@RequestParam(value = "paginaNumero") int paginaNumero) {
+	public List<LibroDTO> pagina(@PathVariable(value = "paginaTamano") int paginaTamano,
+			@PathVariable(value = "paginaNumero") int paginaNumero) {
 
 		try {
 			return conversor.listaModeloADto(servicio.todosPaginado(paginaTamano, paginaNumero).getContent());
@@ -93,7 +94,7 @@ public class LibroController {
 	}
 
 	@DeleteMapping("/{id}")
-	public void eliminarLibro(@RequestParam(value = "id") Long idLibro) {
+	public void eliminarLibro(@PathVariable(value = "id") Long idLibro) {
 		try {
 			servicio.eliminarLibro(idLibro);
 		} finally {

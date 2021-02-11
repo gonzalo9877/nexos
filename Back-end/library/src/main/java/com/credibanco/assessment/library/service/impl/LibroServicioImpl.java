@@ -1,5 +1,6 @@
 package com.credibanco.assessment.library.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -21,14 +22,14 @@ import com.credibanco.assessment.library.service.LibroServicio;
 import com.credibanco.assessment.library.util.TipoFiltro;
 
 @Service
-public class LibroServicioImpl implements LibroServicio{
+public class LibroServicioImpl implements LibroServicio {
 
 	@Autowired
 	private LibroJPA libroDao;
-	
+
 	@Autowired
 	private AutorJPA autorDao;
-	
+
 	@Autowired
 	private EditorialJPA editorialDao;
 
@@ -45,54 +46,58 @@ public class LibroServicioImpl implements LibroServicio{
 
 	@Override
 	public Libro insertarLibro(Libro libro) throws Exception {
-		for(Autor autor : libro.getAutores()){
-			if(!autorDao.findById(autor.getId()).isPresent()){
+		for (Autor autor : libro.getAutores()) {
+			if (!autorDao.findById(autor.getId()).isPresent()) {
 				throw new Exception("El autor no está registrado");
 			}
-			
-		};
-		for(Editorial editorial : libro.getEditoriales()){
-			if(!editorialDao.findById(editorial.getId()).isPresent()){
+
+		}
+		;
+		for (Editorial editorial : libro.getEditoriales()) {
+			if (!editorialDao.findById(editorial.getId()).isPresent()) {
 				throw new Exception("La editorial no está registrada");
 			}
 			Set<Editorial> editoriales = new HashSet<>();
 			editoriales.add(editorialDao.findById(editorial.getId()).get());
 			int count = libroDao.countByEditorialesIn(editoriales);
-			if(editorial.getMaxLibrosRegistrados() != -1 && count >= editorial.getMaxLibrosRegistrados()) {
+			if (editorial.getMaxLibrosRegistrados() != -1 && count >= editorial.getMaxLibrosRegistrados()) {
 				throw new Exception("No es posible registrar el libro, se alcanzó el máximo permitido.");
 			}
-		};
+		}
+		;
 		return libroDao.save(libro);
 	}
 
 	@Override
 	public Libro actualizarLibro(Libro libro) throws Exception {
-		for(Autor autor : libro.getAutores()){
-			if(!autorDao.findById(autor.getId()).isPresent()){
+		for (Autor autor : libro.getAutores()) {
+			if (!autorDao.findById(autor.getId()).isPresent()) {
 				throw new Exception("El autor no está registrado");
 			}
-			
-		};
-		for(Editorial editorial : libro.getEditoriales()){
-			if(!editorialDao.findById(editorial.getId()).isPresent()){
+
+		}
+		;
+		for (Editorial editorial : libro.getEditoriales()) {
+			if (!editorialDao.findById(editorial.getId()).isPresent()) {
 				throw new Exception("La editorial no está registrada");
 			}
-			
-		};
+
+		}
+		;
 		return libroDao.save(libro);
 	}
 
 	@Override
 	public void eliminarLibro(Long idLibro) {
-		
+
 		libroDao.deleteById(idLibro);
 	}
 
 	@Override
 	public Libro obtenerPorId(Long id) throws Exception {
-		
+
 		Optional<Libro> opt = libroDao.findById(id);
-		if(opt.isPresent()) {
+		if (opt.isPresent()) {
 			Libro libro = opt.get();
 			return libro;
 		} else {
@@ -101,11 +106,21 @@ public class LibroServicioImpl implements LibroServicio{
 	}
 
 	@Override
-	public Libro obtenerFiltrado(TipoFiltro tipo, String busqueda) {
-		
-		return null;
+	public List<Libro> obtenerFiltrado(String tipo, String busqueda) {
+		List<Libro> libros = new ArrayList<>();
+		switch (tipo) {
+		case "AUTOR":
+			List<Autor> autores = autorDao.findAllByNombreCompletoContaining(busqueda);
+			libros = libroDao.findAllByAutoresIn(autores);
+			break;
+		case "TITULO":
+			libros = libroDao.findAllByTituloContaining(busqueda);
+			break;
+		case "ANIO":
+			libros = libroDao.findAllByAnio(busqueda);
+			break;
+		}
+		return libros;
 	}
-	
-	
 
 }
