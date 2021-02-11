@@ -3,9 +3,12 @@ package com.credibanco.assessment.library.api.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.credibanco.assessment.library.dto.AutorDTO;
 import com.credibanco.assessment.library.model.Autor;
 
+@Component
 public class AutorConversor {
 
 	public AutorDTO modeloADto(Autor modelo) {

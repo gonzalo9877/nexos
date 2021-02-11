@@ -3,9 +3,12 @@ package com.credibanco.assessment.library.api.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.credibanco.assessment.library.dto.EditorialDTO;
 import com.credibanco.assessment.library.model.Editorial;
 
+@Component
 public class EditorialConversor {
 
 	public EditorialDTO modeloADto(Editorial modelo) {

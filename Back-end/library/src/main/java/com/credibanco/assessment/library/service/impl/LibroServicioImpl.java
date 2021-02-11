@@ -1,7 +1,9 @@
 package com.credibanco.assessment.library.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -53,7 +55,12 @@ public class LibroServicioImpl implements LibroServicio{
 			if(!editorialDao.findById(editorial.getId()).isPresent()){
 				throw new Exception("La editorial no está registrada");
 			}
-			
+			Set<Editorial> editoriales = new HashSet<>();
+			editoriales.add(editorialDao.findById(editorial.getId()).get());
+			int count = libroDao.countByEditorialesIn(editoriales);
+			if(editorial.getMaxLibrosRegistrados() != -1 && count >= editorial.getMaxLibrosRegistrados()) {
+				throw new Exception("No es posible registrar el libro, se alcanzó el máximo permitido.");
+			}
 		};
 		return libroDao.save(libro);
 	}
