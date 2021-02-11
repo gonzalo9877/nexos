@@ -17,8 +17,11 @@ export class HomeComponent implements OnInit {
   }
 
   buscar(): void{
+    if(this.tipoSeleccionado == 'AÑO'){
+      this.tipoSeleccionado = 'ANIO';
+    }
     this._homeService.getLibros(this.busqueda,this.tipoSeleccionado).subscribe((response: any) => {
-      this.libros = response.content as Libro[];
+      this.libros = response as Libro[];
     }
     );
   }

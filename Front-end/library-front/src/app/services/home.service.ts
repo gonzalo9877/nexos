@@ -37,4 +37,6 @@ export class Libro {
   anio: string;
   genero: string;
   numeroPaginas: number;
+  autores: any;
+  editoriales: any;
 }
