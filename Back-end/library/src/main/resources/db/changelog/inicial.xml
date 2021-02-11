@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<changeSet id="crearLibro" author="fgfonseca">
+		<createTable tableName="libro">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="titulo" type="varchar(100)" />
+			<column name="anio" type="varchar(100)" />
+			<column name="genero" type="varchar(100)" />
+			<column name="numero_paginas" type="bigint" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="crearLibroEditorial" author="fgfonseca">
+		<createTable tableName="libro_editorial">
+			<column name="libro_id" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="editorial_id" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="crearEditorial" author="fgfonseca">
+		<createTable tableName="editorial">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="nombre" type="varchar(100)" />
+			<column name="direccion" type="varchar(100)" />
+			<column name="telefono" type="varchar(100)" />
+			<column name="email" type="varchar(100)" />
+			<column name="max_libros" type="bigint" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="crearLibroAutor" author="fgfonseca">
+		<createTable tableName="libro_autor">
+			<column name="libro_id" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="autor_id" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="crearAutor" author="fgfonseca">
+		<createTable tableName="autor">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="nombre_completo" type="varchar(100)" />
+			<column name="fecha_nacimiento" type="date" />
+			<column name="ciudad" type="varchar(100)" />
+			<column name="email" type="varchar(100)" />
+		</createTable>
+	</changeSet>
+
+</databaseChangeLog>
